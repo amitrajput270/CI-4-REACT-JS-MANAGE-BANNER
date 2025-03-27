@@ -33,15 +33,36 @@ class BannerController extends ResourceController
         ]);
     }
 
+    private function mapRequest($parameters = [])
+    {
+        $allVariable = [
+            'title',
+            'description',
+            'order',
+            'is_active',
+            'link',
+            'image',
+        ];
+        $data = [];
+        foreach ($allVariable as $variable) {
+            $data[$variable] = null;
+        }
+        foreach ($parameters as $key => $value) {
+            if (in_array($key, $allVariable)) {
+                $data[$key] = $value;
+            }
+        }
+        return (object) $data;
+    }
+
     private function mapImageParameters($params)
     {
         $image = null;
         $link  = null;
-
         if (preg_match('/^http(s)?:\/\//', $params->link) && preg_match('/^http(s)?:\/\//', $params->image)) {
             $link = $params->link;
         } elseif (! str_contains($params->image, ';base64,') && preg_match('/^http(s)?:\/\//', $params->link)) {
-            if (file_exists(FCPATH . 'uploads/' . $params->image)) {
+            if (! empty($params->image) && file_exists(FCPATH . 'uploads/' . $params->image)) {
                 unlink(FCPATH . 'uploads/' . $params->image);
             }
             $link  = $params->link;
@@ -89,7 +110,7 @@ class BannerController extends ResourceController
 
     public function create()
     {
-        $data  = $this->request->getJSON();
+        $data  = $this->mapRequest((array) $this->request->getJSON());
         $image = null;
         if (! isset($data->link) || empty($data->link)) {
             if (! isset($data->image) || empty($data->image)) {
@@ -145,7 +166,7 @@ class BannerController extends ResourceController
 
     public function update($id = null)
     {
-        $data  = $this->request->getJSON();
+        $data  = $this->mapRequest((array) $this->request->getJSON());
         $image = null;
         if (! $banner = $this->model->find($id)) {
             return $this->sendResponse(false, 'Banner not found', null, 404);
