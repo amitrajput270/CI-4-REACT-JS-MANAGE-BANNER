@@ -97,6 +97,13 @@ class BannerController extends ResourceController
     public function index()
     {
         $banners = $this->model->orderBy('order', 'ASC')->findAll();
+        $banners = array_map(function ($banner) {
+            if ($banner['image']) {
+                $banner['imagePath'] = 'uploads';
+            }
+            return $banner;
+        }, $banners);
+
         return $this->sendResponse(true, 'Banners retrieved successfully', $banners);
     }
 

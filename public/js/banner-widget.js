@@ -1,6 +1,7 @@
 (function () {
     const config = {
-        apiUrl: 'http://localhost:8080/api/banner', // Replace with your API endpoint
+        API_BASE_URL: 'http://localhost:8080',
+        BANNERS_ENDPOINT: '/api/banner',
         containerId: 'banner-container',
         style: `
             .banner-container {
@@ -50,7 +51,7 @@
 
     async function loadBanners() {
         try {
-            const response = await fetch(config.apiUrl);
+            const response = await fetch(config.API_BASE_URL + config.BANNERS_ENDPOINT);
             const data = await response.json();
 
             if (data.success && data.data && data.data.length > 0) {
@@ -76,7 +77,7 @@
 
                     if (banner.image) {
                         const img = document.createElement('img');
-                        img.src = banner.image;
+                        img.src = `${config.API_BASE_URL}/${banner.imagePath}/${banner.image}`;
                         img.alt = banner.title;
                         img.className = 'banner-image';
                         content.appendChild(img);

@@ -154,6 +154,7 @@
             title: data.title || '',
             description: data.description || '',
             image: data.image || data.link,
+            imagePath: data.imagePath || '',
             link: data.link || '',
             isActive: data.is_active == 1 || data.is_active === true || data.isActive === true,
             order: data.order || 0
@@ -167,6 +168,7 @@
                 title: '',
                 description: '',
                 image: '',
+                imagePath: '',
                 link: '',
                 isActive: true,
                 order: 0
@@ -335,6 +337,7 @@
                     title: '',
                     description: '',
                     image: '',
+                    imagePath: '',
                     link: '',
                     isActive: true,
                     order: 0
@@ -348,7 +351,7 @@
                 if (imageSrc.startsWith('http') || imageSrc.startsWith('data:')) {
                     return imageSrc;
                 }
-                return `${API_BASE_URL}/uploads/${imageSrc}`;
+                return `${API_BASE_URL}/${banner.imagePath}/${imageSrc}`;
             };
             const goToSlide = (index) => {
                 setCurrentSlide(index);
