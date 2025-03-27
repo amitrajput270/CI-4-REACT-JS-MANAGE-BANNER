@@ -124,3 +124,8 @@ nb-configuration.xml
 
 /results/
 /phpunit*.xml
+
+
+# Ignore uploaded files in public directory
+/public/uploads/
+/public/uploads/*
