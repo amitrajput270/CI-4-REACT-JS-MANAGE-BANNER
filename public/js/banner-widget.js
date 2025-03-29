@@ -1,6 +1,6 @@
 (function () {
     const config = {
-        API_BASE_URL: 'http://localhost:8080',
+        API_BASE_URL: 'http://codeigniter4.localhost',
         BANNERS_ENDPOINT: '/api/banner',
         containerId: 'banner-container',
         style: `
